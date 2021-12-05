@@ -5,8 +5,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireMessagingModule } from "@angular/fire/messaging";
-import { environment } from "../environments/environment";
-import { HttpClientModule } from "@angular/common/http";
+import {environment} from "../environments/environment";
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [

@@ -8,7 +8,7 @@ import {Message} from "./models/message";
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit{
   title = 'fcm-demo-front';
   messages: Array<Message> = [];
 
@@ -34,7 +34,13 @@ export class AppComponent implements OnInit {
 
       console.log(error);
 
+    });
 
+    this.msg.onMessage((payload) => {
+      // Get the data about the notification
+      let notification = payload.notification;
+      // Create a Message object and add it to the array
+      this.messages.push({title: notification.title, body: notification.body, iconUrl: notification.icon});
     });
 
   }
