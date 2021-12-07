@@ -12,23 +12,31 @@ export class AppComponent implements OnInit{
   title = 'fcm-demo-front';
   messages: Array<Message> = [];
 
+
   constructor(private msg: AngularFireMessaging, private http: HttpClient) { }
 
-  ngOnInit() {
+  ngOnInit():void {
 
     this.msg.requestToken.subscribe(token => {
 
-      console.log(token);
+      // console.log(token);
+
+      // truyền dữ liệu token về server "http://localhost:8080/notification/token"
+      this.http.post<any>("http://localhost:8080/notification/token",{"token":token})
+        .subscribe(data => {
+        })
+
       this.http.post('http://localhost:8080/notification', {
         target: token,
         title: 'hello world',
-        message: 'First notification, kinda nervous',
+        message: 'First notification',
       }).subscribe(() => {  });
 
       this.http.post('http://localhost:8080/topic/subscription', {
         topic: 'weather',
         subscriber: token
       }).subscribe(() => {  });
+
 
     }, error => {
 
@@ -37,13 +45,16 @@ export class AppComponent implements OnInit{
     });
 
     this.msg.onMessage((payload) => {
-      // Get the data about the notification
+
       let notification = payload.notification;
-      // Create a Message object and add it to the array
+
       this.messages.push({title: notification.title, body: notification.body, iconUrl: notification.icon});
     });
 
+
   }
+
+
 
 
 }
